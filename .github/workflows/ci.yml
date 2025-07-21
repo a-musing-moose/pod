@@ -1,0 +1,69 @@
+name: Continuous Integration
+
+on: [push]
+
+jobs:
+  static-analysis-checks:
+    name: Static analysis Checks
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install management tools
+      uses: astral-sh/setup-uv@v5
+      with:
+        version: "0.7.3"
+
+    - name: Install dependencies
+      run: |
+        uv tool install invoke
+        invoke install --skip-install-playwright
+
+    - name: Run linting and formatting
+      run: |
+        invoke lint
+        invoke format --check
+
+  type-checking:
+    name: Type Checking
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install management tools
+      uses: astral-sh/setup-uv@v5
+      with:
+        version: "0.7.3"
+
+    - name: Install dependencies
+      run: |
+        uv tool install invoke
+        cp example.env .env
+        invoke install --skip-install-playwright
+        
+    - name: Run type-checking
+      run: invoke typing
+
+  documentation-building:
+    name: Presentation Building
+    
+    runs-on: ubuntu-latest
+    steps:
+    - uses: typst-community/setup-typst@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install management tools
+      uses: astral-sh/setup-uv@v5
+      with:
+        version: "0.7.3"
+
+    - name: Install dependencies
+      run: |
+        uv tool install invoke
+
+    - name: Build the presentation
+      run: invoke build-presentation

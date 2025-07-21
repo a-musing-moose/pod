@@ -1,0 +1,74 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link href="invoice.css" media="print" rel="stylesheet">
+    <title>Invoice</title>
+    <meta name="description" content="Invoice demo sample">
+  </head>
+
+  <body>
+    <h1>Invoice</h1>
+
+    <aside>
+      <address id="from">
+        WeasyPrint
+        26 rue Emile Decorps
+        69100 Villeurbanne
+        France
+      </address>
+
+      <address id="to">
+        Our awesome developers
+        From all around the world
+        Earth
+      </address>
+    </aside>
+
+    <dl id="informations">
+      <dt>Invoice number</dt>
+      <dd>{{ invoice_number }} </dd>
+      <dt>Date</dt>
+      <dd>{{ invoice_date }}</dd>
+    </dl>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Description</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in items %}
+        <tr>
+          <td>{{ item.description }}</td>
+          <td>{{ item.price }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.subtotal }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <footer>
+      <table id="total">
+        <thead>
+          <tr>
+            <th>Due by</th>
+            <th>Account number</th>
+            <th>Total due</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ due_date }}</td>
+            <td>{{ account_number }}</td>
+            <td>{{ total_due }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </footer>
+  </body>
+</html>
