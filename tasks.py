@@ -144,7 +144,12 @@ def build_presentation(ctx):
     """
     _title("Building presentation")
     ctx.run("mkdir -p dist")
-    ctx.run("typst compile src/presentation/main.typ dist/presentation.pdf", pty=True)
+    ctx.run(
+        "typst compile"
+        " --font-path=src/presentation/fonts"
+        " --ignore-system-fonts"
+        " src/presentation/main.typ dist/presentation.pdf",
+    )
 
 
 ###########
