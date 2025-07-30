@@ -10,10 +10,8 @@ requires-python = ">=3.13,<4"
 
 dependencies = [
     "django >= 5.1.5, < 6",
-    "django-environ >= 0.12.0, < 1.0",
     "uvicorn >= 0.34.0, < 1.0",
     "uvloop  >= 0.21.0, < 1.0.0; sys_platform != 'win32'",
-    "sentry-sdk >= 2.22.0, < 3.0",
     "httptools >= 0.6.4, < 1.0",
     "weasyprint>=65.1",
     "typst>=0.13.4",

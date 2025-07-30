@@ -41,7 +41,6 @@ jobs:
     - name: Install dependencies
       run: |
         uv tool install invoke
-        cp example.env .env
         invoke install --skip-install-playwright
         
     - name: Run type-checking

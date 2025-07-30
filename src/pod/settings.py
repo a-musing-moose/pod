@@ -1,27 +1,17 @@
 from pathlib import Path
 
 import django_stubs_ext
-import environ
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent
 
-env = environ.Env()
-
-# Take environment variables from .env file
-environ.Env.read_env(env_file=BASE_DIR.parent.parent / ".env")
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
-SECRET_KEY: str = env("SECRET_KEY")
-DEBUG: bool = env.bool("DEBUG", default=False)
-ALLOWED_HOSTS: list[str] = env.list("ALLOWED_HOSTS", default=[])
-GIT_COMMIT_HASH: str = env("GIT_COMMIT_HASH")
-GIT_COMMIT_TIME: str = env.int("GIT_COMMIT_TIME")
-GIT_COMMIT_COUNT: int = env.int("GIT_COMMIT_COUNT")
+SECRET_KEY: str = "%!wdp00wqzi&a1l-58k9oz5rx&98w96opb6b=@p^_kl^v_8%ds"  # noqa: S105
+DEBUG: bool = True
+ALLOWED_HOSTS: list[str] = ["*"]
+
 
 # To support better typing when using Generic types in django
 # https://github.com/typeddjango/django-stubs?tab=readme-ov-file#i-cannot-use-queryset-or-manager-with-type-annotations
@@ -136,8 +126,7 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Logging
-LOG_LEVEL = env("APP_LOG_LEVEL", default="INFO")
-
+LOG_LEVEL = "INFO"
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -161,22 +150,3 @@ LOGGING = {
         },
     },
 }
-
-# Sentry
-sentry_sdk.init(
-    dsn=env("SENTRY_DSN", default=None),
-    environment=env("SENTRY_ENV", default="production"),
-    release=GIT_COMMIT_HASH,
-    # Set traces_sample_rate to 1.0 to capture 100%
-    # of transactions for tracing.
-    traces_sample_rate=env.float("SENTRY_TRACES_SAMPLE_RATE", default=0.0),
-    # Set profiles_sample_rate to 1.0 to profile 100%
-    # of sampled transactions.
-    # It's recommended to adjust this value in production.
-    profiles_sample_rate=env.float("SENTRY_PROFILES_SAMPLE_RATE", default=0.0),
-    integrations=[
-        DjangoIntegration(),
-    ],
-)
-# Ignore unwanted errors (Optional)
-# sentry_sdk.integrations.logging.ignore_logger("django.security.DisallowedHost")
