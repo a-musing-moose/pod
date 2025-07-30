@@ -67,12 +67,20 @@ class TypstTemplate:
     ) -> bytes:
         if context is None:
             context = {}
+
+        # If I was making a more complex Typst template engine, I would probably want to
+        # pass the request object to Typst so it can access request data like user,
+        # session, etc. But that would require me making them JSON serializable, which I
+        # cannot be bothered to do right now. Same with the "view" context variable.
+
         context.pop("view", None)  # views are not json serializable
 
         root = None
         font_paths = []
         if self.origin.name != UNKNOWN_SOURCE:
             # Use the directory of the template as the root for relative paths
+            # again if this was a proper Typst template engine, I would probably
+            # want to make these configurable via the settings.
             root = pathlib.Path(self.origin.name).parent.as_posix()
             font_paths = [root]
 
