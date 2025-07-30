@@ -13,3 +13,4 @@ dist/
 htmlcov/
 site/
 .DS_Store
+pod.sqlite3
