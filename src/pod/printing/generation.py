@@ -28,11 +28,10 @@ class WeasyPrintPDFGenerator:
     def get_font_config(self) -> fonts.FontConfiguration:
         return fonts.FontConfiguration()
 
-    def get_document(self) -> weasyprint.Document:
+    def get_pdf(self) -> bytes:
         """
-        Render the template and return a WeasyPrint Document object.
+        Returns rendered PDF pages.
         """
-
         base_url = self.get_base_url()
         font_config = self.get_font_config()
         template_name = (
@@ -47,14 +46,8 @@ class WeasyPrintPDFGenerator:
             string=self.template.render(self.context),  # type: ignore[arg-type]
             base_url=base_url.as_posix(),
         )
-        return html.render(font_config=font_config)
-
-    def get_pdf(self) -> bytes:
-        """
-        Returns rendered PDF pages.
-        """
-        document = self.get_document()
-        return typing.cast(bytes, document.write_pdf())
+        document = html.render(font_config=font_config)
+        return document.write_pdf() or b""
 
     def resolve_template(
         self,
