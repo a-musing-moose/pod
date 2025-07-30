@@ -3,7 +3,6 @@ import typing
 
 import weasyprint
 from django.template import base as template_base
-from django.template import context as template_context
 from django.template import loader
 from weasyprint.text import fonts
 
@@ -45,8 +44,8 @@ class WeasyPrintPDFGenerator:
             raise ValueError("The provided template is missing a name.")
 
         html = weasyprint.HTML(
-            string=self.template.render(template_context.Context(self.context)),
-            base_url=base_url,
+            string=self.template.render(self.context),  # type: ignore[arg-type]
+            base_url=base_url.as_posix(),
         )
         return html.render(font_config=font_config)
 
